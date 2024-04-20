@@ -17,5 +17,8 @@
 4. View the last report:
     npx playwright show-report
 
+    format of html report:
+    ![html report](test_report.png)
+
 5. Comparison of JS test frameworks:
     https://www.testim.io/blog/puppeteer-selenium-playwright-cypress-how-to-choose/

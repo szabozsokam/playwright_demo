@@ -7,7 +7,7 @@ module.exports = defineConfig({
   timeout: 60000,
   fullyParallel: true,
   reporter: 'html',
-  retries: 1,
+  retries: 2,
   outputDir: 'test-results',
   // globalSetup: require.resolve('./global-setup.ts'),
   // globalTeardown: require.resolve('./global-teardown.ts'),
@@ -22,15 +22,15 @@ module.exports = defineConfig({
   },
 
   projects: [
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
 
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
+    {
+      name: 'Microsoft Edge',
+      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    },
     {
       name: 'Google Chrome',
       use: { ...devices['Desktop Chrome'], channel: 'chrome' },

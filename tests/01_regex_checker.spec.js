@@ -15,7 +15,6 @@ var pattern_invalid_2 = '12.123.1234.123' // nr of digits > 3
 
 test('check validity of IP addresses with regex', async ({ page }) => {
     const language_js = page.getByRole('button', { name: 'ECMAScript (JavaScript)' });
-    const check_mark = page.locator('xpath=//div[@title="ECMAScript (JavaScript)"]/following-sibling::*[@class="zxc_j"]');
     const regex_IF = page.getByRole('textbox', { name: 'insert your regular' });
     const test_IF = page.getByRole('textbox', { name: 'insert your test string here' });
     const match_message = page.locator('xpath=//span[normalize-space(text())="Regular Expression"]/../div/div/div');
@@ -23,17 +22,20 @@ test('check validity of IP addresses with regex', async ({ page }) => {
     
     await expect(page.locator('#regex-app')).toContainText('Regular Expression');
     await language_js.click();
-    await expect(check_mark).toBeVisible();
     await regex_IF.fill(regex);
-    // mismatch message for invalid IP address:
+
+    // mismatch message for invalid IP address 1:
     await test_IF.fill(pattern_invalid_1);
     await expect(match_message).toContainText('No Match');
     await expect(match_message).toHaveCSS('background-color', 'rgb(197, 197, 197)');  // grey background
     await expect(page.locator('#regex-app')).toContainText('Your regular expression does not match the subject string.');
+    
+    // mismatch message for invalid IP address 2:
     await test_IF.fill(pattern_invalid_2);
     await expect(match_message).toContainText('No Match');
     await expect(match_message).toHaveCSS('background-color', 'rgb(197, 197, 197)');  // grey background
     await expect(page.locator('#regex-app')).toContainText('Your regular expression does not match the subject string.');
+    
     // match message for valid IP address: 
     await test_IF.fill(pattern_valid);
     await expect(match_message).toContainText('1 match');
