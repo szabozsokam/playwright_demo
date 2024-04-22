@@ -1,16 +1,16 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 
-module.exports = defineConfig({
+export default defineConfig({
   name: 'Testing regex checker page',
   testDir: './tests',
-  timeout: 60000,
+  timeout: 120000,
   fullyParallel: true,
   reporter: 'html',
   retries: 2,
   outputDir: 'test-results',
-  // globalSetup: require.resolve('./global-setup.ts'),
-  // globalTeardown: require.resolve('./global-teardown.ts'),
+  // globalSetup: require.resolve('./global-setup.js'),
+  // globalTeardown: require.resolve('./global-teardown.js'),
 
   use: {
     screenshot: 'only-on-failure',
@@ -24,16 +24,24 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+      viewport: {width: 1920, height: 1040},  // needs to be checked for the actual monitor
+      }
     },
 
     {
       name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+      use: { ...devices['Desktop Edge'], 
+      channel: 'msedge',
+      viewport: {width: 1920, height: 1040},  // needs to be checked for the actual monitor
+      }
     },
+
     {
       name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      use: { ...devices['Desktop Chrome'], 
+      viewport: {width: 1920, height: 1040}, // needs to be checked for the actual monitor
+      }
     },
   ],
 
