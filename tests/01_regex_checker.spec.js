@@ -5,21 +5,19 @@ const { RegexCheckerPage } = require('../page_objects/regexchecker.page.js');
 
 // regex to validate if a string pattern is a valid ip address
 var regex = '^((0?[0-9]?\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(0?[0-9]?\\d|1\\d\\d|2[0-4]\\d|25[0-5])$';  
-// IP addresses to validate:
-var pattern_valid =  '121.234.12.12';
-var pattern_invalid_1 = '101.504.16.23'; // value > 255
-var pattern_invalid_2 = '12.123.1234.123' // nr of digits > 3 
-var match_info_firstrow = ["Match 1", "0-13", pattern_valid];
 
 test.beforeEach(async ({ page }) => {
     const regexCheckerPage = new RegexCheckerPage(page);
     regexCheckerPage.load();
+    await expect(page.locator('#regex-app')).toContainText('Regular Expression');
+    await regexCheckerPage.language_js.click();
   });
 
 test('check invalid IP addresses with regex', async ({ page }) => {
     const regexCheckerPage = new RegexCheckerPage(page);
-    await expect(page.locator('#regex-app')).toContainText('Regular Expression');
-    await regexCheckerPage.language_js.click();
+    const pattern_invalid_1 = '101.504.16.23'; // value > 255
+    const pattern_invalid_2 = '12.123.1234.123' // nr of digits > 3 
+
     await regexCheckerPage.regex_IF.fill(regex);
 
     // mismatch message for invalid IP address 1:
@@ -37,11 +35,10 @@ test('check invalid IP addresses with regex', async ({ page }) => {
 
 test('check valid IP address with regex', async ({ page }) => {
   const regexCheckerPage = new RegexCheckerPage(page);
-  await expect(page.locator('#regex-app')).toContainText('Regular Expression');
-  await regexCheckerPage.language_js.click();
+  const pattern_valid =  '121.234.12.12';
+  const match_info_firstrow = ["Match 1", "0-13", pattern_valid];
+
   await regexCheckerPage.regex_IF.fill(regex);
-  
-  // match message for valid IP address: 
   await regexCheckerPage.test_IF.fill(pattern_valid);
   await expect(regexCheckerPage.match_message).toContainText('1 match');
   await expect(regexCheckerPage.match_message).toHaveCSS('background-color', 'rgb(78, 132, 117)');  // green background
